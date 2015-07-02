@@ -36,3 +36,22 @@ rake run:ios         # Run on iOS plugged device or emulator
 rake serve           # Phonegap Dev App, optional: port
 rake setup           # Setup env for development
 ```
+
+
+## Google Play Store
+
+
+### Binaries
+
+Make sure you have `jarsigner` and `zipalign` on your path.
+The latter is usually somewhere in /opt/android-sdk.
+
+
+### Key password
+
+To avoid typing keys on eack apk build:
+Rakefile:
+
+    GOOGLE_KEY = 'mykeypassword'
+
+Or an ENV var 'GOOGLE_KEY'

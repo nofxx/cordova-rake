@@ -129,16 +129,16 @@ namespace :release do
     end
 
     task :archive do
-      sh 'cordova build --release android'
+      sh " cordova build --release android"
       FileUtils.cp 'platforms/android/build/outputs'\
                    '/apk/android-release-unsigned.apk',
                    "build/#{app}-unsigned.apk"
     end
 
     task :sign do
-      sh "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 "\
-         "-keystore ./.keys/google.keystore build/#{app}-unsigned.apk "\
-         "#{app}"
+      sh "echo '#{GOOGLE_KEY}' | jarsigner -verbose -sigalg SHA1withRSA "\
+         "-digestalg SHA1 -keystore "\
+         "./.keys/google.keystore build/#{app}-unsigned.apk #{app}"
       FileUtils.cp "build/#{app}-unsigned.apk", "build/#{app}-signed.apk"
     end
 
@@ -170,5 +170,8 @@ namespace :release do
   namespace :apple do
     task :all   => [:archive, :upload, :check]
 
+    task :archive do
+
+    end
   end
 end
