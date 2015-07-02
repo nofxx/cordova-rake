@@ -20,7 +20,7 @@ If you don't have one
     echo "require 'cordova/rake'" > Rakefile
 
 
-## From Rake
+## rake -T
 
 ```
 rake compile         # Compiles all resources
@@ -38,7 +38,7 @@ rake setup           # Setup env for development
 ```
 
 
-## Google Play Store
+## Google | Play Store
 
 
 ### Binaries
@@ -55,3 +55,18 @@ Rakefile:
     GOOGLE_KEY = 'mykeypassword'
 
 Or an ENV var 'GOOGLE_KEY'
+
+
+## Apple | App Store
+
+
+### Binaries
+
+Make sure you have `xcrun`.
+Also you need to open the project once in Xcode. (working on xproject gem)
+
+### Developer
+
+To change developer per project:
+
+    APPLE_DEVELOPER = 'Developer X (XXXXX)'

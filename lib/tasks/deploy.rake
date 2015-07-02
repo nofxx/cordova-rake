@@ -38,7 +38,9 @@ namespace :release do
     end
 
     task :sign do
-      sh "echo '#{GOOGLE_KEY}' | jarsigner -verbose -sigalg SHA1withRSA "\
+      key = ENV['GOOGLE_KEY']
+      key = GOOGLE_KEY if Object.const_defined?(GOOGLE_KEY)
+      sh "echo '#{key}' | jarsigner -verbose -sigalg SHA1withRSA "\
          "-digestalg SHA1 -keystore "\
          "./.keys/google.keystore build/#{app}-unsigned.apk #{app}"
       FileUtils.cp "build/#{app}-unsigned.apk", "build/#{app}-signed.apk"
@@ -79,11 +81,14 @@ namespace :release do
 
     task :ipa do
       provision = Dir['platforms/ios/build/**/*.mobileprovision'].first
-      sh "xcrun -sdk iphoneos PackageApplication -v "\
-         "'platforms/ios/build/emulator/#{app}.app' -o "\
-         "'#{Rake.original_dir}/build/#{app}.ipa' "\
-         "--embed '#{provision}'"
-         "--sign '#{developer}"
+      developer = ENV['APPLE_DEVELOPER']
+      developer = APPLE_DEVELOPER if Object.const_defined?(:APPLE_DEVELOPER)
+      comm = "xcrun -sdk iphoneos PackageApplication -v "\
+             "'platforms/ios/build/emulator/#{app}.app' -o "\
+             "'#{Rake.original_dir}/build/#{app}.ipa' "
+      comm << "--embed '#{provision}'" if provision
+      comm << "--sign #{APPLE_DEVELOPER}" if developer
+      sh comm
     end
 
     task :check do
