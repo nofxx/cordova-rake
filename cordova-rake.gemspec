@@ -1,14 +1,13 @@
 # -*- encoding: utf-8 -*-
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
-require 'rake/cordova/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'rake-cordova'
-  s.version     = Rake::Cordova::VERSION
+  s.name        = 'cordova-rake'
+  s.version     = '0.0.3'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Marcos Piccinini']
   s.email       = ['nofxx@github.com']
-  s.homepage    = 'http://github.com/nofxx/rake-cordova'
+  s.homepage    = 'http://github.com/nofxx/cordova-rake'
   s.summary     = 'Rake tasks to help cordova development'
   s.description = 'Rake tasks to help cordova development'
   s.license     = 'MIT'
