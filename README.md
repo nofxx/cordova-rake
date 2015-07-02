@@ -1,7 +1,15 @@
 # Rake Cordova
+
 [![Gem Version](https://badge.fury.io/rb/cordova-rake.png)](http://badge.fury.io/rb/cordova-rake)
 
 The missing cordova tasks. And the better: On Ruby!
+
+## Install
+
+    gem install cordova-rake
+
+
+## Use
 
 Add to your `Rakefile`
 
@@ -10,9 +18,6 @@ Add to your `Rakefile`
 If you don't have one
 
     echo "require 'cordova-rake'" > Rakefile
-
-
-# /lib/rake/cordova'
 
 
 ## From Rake
