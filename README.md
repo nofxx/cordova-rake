@@ -17,7 +17,7 @@ Add to your `Rakefile`
 
 If you don't have one
 
-    echo "require 'cordova-rake'" > Rakefile
+    echo "require 'cordova/rake'" > Rakefile
 
 
 ## From Rake
