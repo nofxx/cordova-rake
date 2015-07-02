@@ -13,10 +13,6 @@ def environment
   ENV['TARGET'] || 'development'
 end
 
-def find_zipalign
-  `find /opt/android-sdk/build-tools`
-end
-
 def config(key)
   return @xml[key] if @xml
   xml = Nokogiri::XML(File.open('config.xml'))
@@ -130,6 +126,11 @@ namespace :compile do
   end
 end
 
+#
+#
+# RELEASE
+#
+#
 namespace :release do
 
   task :check_dirs do
@@ -138,13 +139,13 @@ namespace :release do
     end
   end
 
-
   desc 'Deploy to Google’s Play Store'
   task google: [:check_dirs,  'google:all', :report]
 
   namespace :google do
-    task :all   => [:clean, :keygen, :archive, :sign, :zipalign, :check]
+    task :all   => [:clean, :keygen, :archive, :sign, :align, :check, :submit]
 
+    # desc 'Clean up build folder from apks'
     task :clean do
       Dir['build/*.apk'].each { |f| File.delete(f) }
     end
@@ -171,9 +172,8 @@ namespace :release do
       FileUtils.cp "build/#{app}-unsigned.apk", "build/#{app}-signed.apk"
     end
 
-    task :zipalign do
+    task :align do
       sh "zipalign -f -v 4 build/#{app}-signed.apk build/#{app}.apk"
-      FileUtils.cp "build/#{app}-signed.apk", "build/#{app}.apk"
     end
 
     task :check do
@@ -184,6 +184,10 @@ namespace :release do
         puts "Something BAD! No #{arch}!"
         exit 1
       end
+    end
+
+    task :submit do
+      #hope we can soon
     end
   end
 
