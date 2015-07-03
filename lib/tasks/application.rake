@@ -1,5 +1,11 @@
 desc 'Compiles all resources'
-task :compile   => ['compile:all']
+task :compile => [:greet, 'compile:all', :report]
+desc 'Compiles all resources with ENV=production'
+task :release => [:set_release, :compile]
+
+task :set_release do
+  @env = 'production'
+end
 
 namespace :compile do
   task :all   => [:js, :css, :html, :vars]
@@ -15,7 +21,7 @@ namespace :compile do
 
   desc 'Postcompile ENV variables'
   task :vars do
-    data = YAML.load_file('config/app.yml')[environment]
+    data = YAML.load_file('config/app.yml')[env]
     [:js, :css, :html].map { |f| get_sources(f, 'www/js') }.flatten.each do |f|
       data.each do |k, v|
         sh "sed -i \"s/'...#{k.upcase}...'/'#{v}'/g\" #{f}"

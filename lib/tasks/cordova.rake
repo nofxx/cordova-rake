@@ -2,11 +2,11 @@
 # Rake / Cordova
 #
 
-task default: [:greet, :compile, :report]
+task default: [:compile]
 
 task :greet do
-  puts "PhoneGap Rake! #{environment} #{ENV['CORDOVA_PLATFORMS']}"
-  puts "---"
+  puts Paint["Cordova Rake [#{env}] #{ENV['CORDOVA_PLATFORMS']}", :red]
+  puts Paint["        ----", :red]
 end
 
 desc 'Setup env for development'
@@ -17,8 +17,8 @@ task :setup do
 end
 
 task :report do
-  puts "---"
-  puts "Rake done! #{format("%.2f", Time.now - START)}s"
+  puts Paint["---", :black]
+  puts Paint["Rake done! #{format("%.2f", Time.now - START)}s", :green]
 end
 
 desc 'Phonegap Dev App, optional: port.'
