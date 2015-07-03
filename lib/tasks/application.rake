@@ -42,7 +42,6 @@ namespace :compile do
     File.open(t.name.gsub(/app\//, 'www/'), 'w') do |f|
       f.puts layout.render { template.render }
     end
-    # print "HAML | #{t.source} -> #{t.name} | "
-    # sh "haml #{t.source} #{}"
+    puts "haml #{t.source} -> #{t.name}"
   end
 end
