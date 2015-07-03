@@ -11,7 +11,8 @@ end
 
 desc 'Setup env for development'
 task :setup do
-  sh 'npm -g install phonegap cordova coffee-script'
+  sh 'npm -g install phonegap cordova coffee-script '
+  sh 'npm -g install ios-deploy ios-sim ' if RUBY_PLATFORM =~ /darwin/
   sh 'gem install haml sass yamg'
 end
 

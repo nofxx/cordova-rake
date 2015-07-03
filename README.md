@@ -70,3 +70,10 @@ Also you need to open the project once in Xcode. (working on xproject gem)
 To change developer per project:
 
     APPLE_DEVELOPER = 'Developer X (XXXXX)'
+
+
+## YAMG - Yet Another Media Generator
+
+To generate icons, splashes and screenshots check out:
+
+https://github.com/nofxx/yamg

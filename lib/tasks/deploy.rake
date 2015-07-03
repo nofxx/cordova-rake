@@ -40,9 +40,11 @@ namespace :release do
     task :sign do
       key = ENV['GOOGLE_KEY']
       key = GOOGLE_KEY if Object.const_defined?(:GOOGLE_KEY)
-      sh "echo '#{key}' | jarsigner -verbose -sigalg SHA1withRSA "\
-         "-digestalg SHA1 -keystore "\
-         "./.keys/google.keystore build/#{app}-unsigned.apk #{app}"
+      comm = " jarsigner -verbose -sigalg SHA1withRSA "\
+             "-digestalg SHA1 -keystore "\
+             "./.keys/google.keystore build/#{app}-unsigned.apk #{app}"
+      comm = "echo '#{key}' | #{comm}" if key
+      sh comm
       FileUtils.cp "build/#{app}-unsigned.apk", "build/#{app}-signed.apk"
     end
 
