@@ -3,6 +3,16 @@
 # Deploy!
 #
 #
+def check_file(file)
+  if File.exists? arch
+    file_size = File.size(arch).to_f/(1024 * 1024)
+    puts Paint["---\nRelease build ok: #{arch} #{file_size} Mb", :green]
+  else
+    puts Paint["Something BAD! No #{arch}!", :red]
+    exit 1
+  end
+end
+
 namespace :release do
 
   task :check_dirs do
@@ -12,7 +22,7 @@ namespace :release do
   end
 
   desc 'Deploy to Google’s Play Store'
-  task google: [:check_dirs,  'google:all', :report]
+  task google: [:release, :check_dirs, 'google:all', :report]
 
   namespace :google do
     task :all   => [:clean, :keygen, :archive, :sign, :align, :check, :submit]
@@ -25,7 +35,7 @@ namespace :release do
     # desc 'Generates Google Play Store .keystore'
     task :keygen do
       next if File.exist?('.keys/google.keystore')
-      puts "\nGenerate key first!\n\n"
+      puts Paint["\nGenerate key first!\n\n", :red]
       sh "keytool -genkey -v -keystore ./.keys/google.keystore "\
          "-alias #{app} -keyalg RSA -keysize 2048 -validity 10000"
     end
@@ -53,13 +63,7 @@ namespace :release do
     end
 
     task :check do
-      arch = "build/#{app}.apk"
-      if File.exists? arch
-        puts "Build done! #{arch} #{File.size(arch).to_f/(1024 * 1024)} Mb"
-      else
-        puts "Something BAD! No #{arch}!"
-        exit 1
-      end
+      check_file("build/#{app}.apk")
     end
 
     task :submit do
@@ -71,10 +75,15 @@ namespace :release do
   # Apple
   #
   desc 'Deploy to Apple’s App Store'
-  task apple: [:check_dirs, 'apple:all', :report]
+  task apple: [:release, :check_dirs, 'apple:all', :report]
 
   namespace :apple do
-    task :all   => [:archive, :ipa, :check] #, :upload]
+    task :all   => [:clean, :archive, :ipa, :check] #, :upload]
+
+    # desc 'Clean up build folder from apks'
+    task :clean do
+      Dir['build/*.ipa'].each { |f| File.delete(f) }
+    end
 
     task :archive do
       sh "cordova build --release ios"
@@ -94,13 +103,7 @@ namespace :release do
     end
 
     task :check do
-      arch = "build/#{app}.ipa"
-      if File.exists? arch
-        puts "Build done! #{arch} #{File.size(arch).to_f/(1024 * 1024)} Mb"
-      else
-        puts "Something BAD! No #{arch}!"
-        exit 1
-      end
+      check_file("build/#{app}.ipa")
     end
 
   end
