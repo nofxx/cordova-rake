@@ -1,6 +1,7 @@
 require 'rake'
 require 'yaml'
 require 'tilt'
+require 'paint'
 require 'nokogiri'
 START = Time.now
 
@@ -13,10 +14,6 @@ def get_sources(ext, dir = 'app')
     fl.exclude(/^scratch\//)
     # fl.exclude { |f| `git ls-files #{f}`.empty? } # Only commited
   end
-end
-
-def environment
-  ENV['TARGET'] || 'development'
 end
 
 def config(key)
@@ -36,6 +33,10 @@ end
 
 def app
   config(:app)
+end
+
+def env
+  @env ||= ENV['TARGET'] || 'development'
 end
 
 # And load all tasks
