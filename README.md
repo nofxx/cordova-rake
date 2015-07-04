@@ -37,6 +37,31 @@ rake serve           # Phonegap Dev App, optional: port
 rake setup           # Setup env for development
 ```
 
+# Guard + Compile
+
+Just run `guard`. Or directly `rake`.
+```
+HAML -> HTML
+SASS -> CSS
+COFFEE -> JS
+```
+Right into www/
+
+## Config
+
+In a config/app.yml:
+
+```
+development:
+  foo: '10.1.1.88:3000'
+production:
+  foo: 'site.com'
+```
+
+Will postcompile `...FOO...` into the env's value.
+
+
+# Deploy
 
 ## Google | Play Store
 
