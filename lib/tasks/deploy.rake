@@ -4,11 +4,11 @@
 #
 #
 def check_file(file)
-  if File.exists? arch
-    file_size = File.size(arch).to_f/(1024 * 1024)
-    puts Paint["---\nRelease build ok: #{arch} #{file_size} Mb", :green]
+  if File.exists? file
+    file_size = File.size(file).to_f/(1024 * 1024)
+    puts Paint["---\nRelease build ok: #{file} #{file_size} Mb", :green]
   else
-    puts Paint["Something BAD! No #{arch}!", :red]
+    puts Paint["Something BAD! No #{file}!", :red]
     exit 1
   end
 end
