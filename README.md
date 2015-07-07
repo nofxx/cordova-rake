@@ -13,7 +13,7 @@ The missing cordova tasks. And the better: On Ruby!
 
 Add to your `Rakefile`
 
-    require 'cordova-rake'
+    require 'cordova/rake'
 
 If you don't have one
 
