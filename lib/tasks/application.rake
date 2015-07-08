@@ -24,8 +24,9 @@ namespace :compile do
     data = YAML.load_file('config/app.yml')[env]
     [:js, :css, :html].map { |f| get_sources(f, 'www/js') }.flatten.each do |f|
       data.each do |k, v|
-        sh "sed -i \"s/'...#{k.upcase}...'/'#{v}'/g\" #{f}"
-        # sh "sed -i \"s/'####{k.upcase}###'/#{v}/g\" #{f}" # numbers
+        # -i.bak for linux & osx compatibility
+        sh "sed -i.bak \"s/'...#{k.upcase}...'/'#{v}'/g\" #{f}"
+        sh "rm #{f}.bak"
       end
     end
   end
