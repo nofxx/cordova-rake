@@ -34,6 +34,21 @@ task :ripple do
   sh 'ripple emulate'
 end
 
+
+namespace :emulate do
+  desc 'Run on Android emulator'
+  task :android do
+    sh 'cordova build android'
+    sh "cordova emulate android --target #{ARGV[1]}"
+  end
+
+  desc 'Run on iOS emulator'
+  task :ios do
+    sh 'cordova build ios'
+    sh 'cordova emulate ios'
+  end
+end
+
 namespace :run do
   desc 'Run on Android device or emulator'
   task :android do
