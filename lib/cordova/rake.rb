@@ -3,6 +3,7 @@ require 'yaml'
 require 'tilt'
 require 'paint'
 require 'nokogiri'
+require 'erb'
 START = Time.now
 
 #

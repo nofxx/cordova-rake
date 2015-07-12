@@ -7,6 +7,13 @@ task :set_release do
   @env = 'production'
 end
 
+class Erbs < OpenStruct
+  def render(template)
+    ERB.new(template).result(binding)
+  end
+end
+
+
 namespace :compile do
   task :all   => [:js, :css, :html, :vars]
 
@@ -22,12 +29,9 @@ namespace :compile do
   desc 'Postcompile ENV variables'
   task :vars do
     data = YAML.load_file('config/app.yml')[env]
-    [:js, :css, :html].map { |f| get_sources(f, 'www/js') }.flatten.each do |f|
-      data.each do |k, v|
-        # -i.bak for linux & osx compatibility
-        sh "sed -i.bak \"s/'...#{k.upcase}...'/'#{v}'/g\" #{f}"
-        sh "rm #{f}.bak"
-      end
+    [:js, :css, :html].map { |f| get_sources(f, 'www') }.flatten.each do |file|
+      out = Erbs.new(data).render(File.read(file))
+      File.open(file, 'w') { |f| f << out  }
     end
   end
 
