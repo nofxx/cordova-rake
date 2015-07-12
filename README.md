@@ -23,18 +23,22 @@ If you don't have one
 ## rake -T
 
 ```
-rake compile         # Compiles all resources
-rake compile:css     # Compiles SASS -> CSS
-rake compile:html    # Compiles HAML -> HTML
-rake compile:js      # Compiles Coffee -> JS
-rake compile:vars    # Postcompile ENV variables
-rake release:apple   # Deploy to Apple’s App Store
-rake release:google  # Deploy to Google’s Play Store
-rake ripple          # Prepare & Ripple emulate
-rake run:android     # Run on Android device or emulator
-rake run:ios         # Run on iOS plugged device or emulator
-rake serve           # Phonegap Dev App, optional: port
-rake setup           # Setup env for development
+rake compile          # Compiles all resources
+rake compile:css      # Compiles SASS -> CSS
+rake compile:html     # Compiles HAML -> HTML
+rake compile:js       # Compiles Coffee -> JS
+rake compile:vars     # Postcompile ENV variables
+rake emulate:android  # Run on Android emulator
+rake emulate:ios      # Run on iOS emulator
+rake guard            # Prepare & Ripple emulate
+rake release          # Compiles all resources with ENV=production
+rake release:apple    # Deploy to Apple’s App Store
+rake release:google   # Deploy to Google’s Play Store
+rake ripple           # Prepare & Ripple emulate
+rake run:android      # Run on Android device or emulator
+rake run:ios          # Run on iOS plugged device or emulator
+rake serve            # Phonegap Dev App, optional: port
+rake setup            # Setup env for development
 ```
 
 # Guard + Compile
@@ -49,17 +53,55 @@ Right into www/
 
 ## Config
 
-In a config/app.yml:
+Create a config/app.yml:
 
 ```
 development:
-  foo: '10.1.1.88:3000'
+  server: '10.1.1.88:3000'
 production:
-  foo: 'site.com'
+  server: 'site.com'
 ```
 
-Will postcompile `...FOO...` into the env's value.
+This postcompiles ERB tags `<%= server %>` into the env's value.
 
+Example `file.coffee`:
+
+    apiURL = 'http://<%= server %>'
+
+Will render `file.js` in production:
+
+    apiURL = 'http://site.com'
+
+### HAML
+
+You may use ERB tags anywhere in haml.
+You may also use ERB logic if wanted.
+
+Tip: to precompile more than once the same ERB tag: `<%%= value %>`.
+First time it'll compile to `<%= value %>`.
+
+### Coffee
+
+Content replaced must be inside a string.
+
+
+### SASS
+
+To precompile a value that must not contain quotes (eg colors):
+Use `unquote('<%= value %>')`:
+
+```sass
+.btn
+  color: unquote('<%= color %>')
+```
+
+Will render CSS:
+
+```sass
+.btn {
+  color: #FF3311;
+}
+```
 
 # Deploy
 
