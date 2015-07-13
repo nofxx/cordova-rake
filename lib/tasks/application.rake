@@ -29,6 +29,7 @@ namespace :compile do
   desc 'Postcompile ENV variables'
   task :vars do
     data = YAML.load_file('config/app.yml')[env]
+    # STDOUT.puts 'ERB.new(config/app.yml).render on www/'
     [:js, :css, :html].map { |f| get_sources(f, 'www') }.flatten.each do |file|
       out = Erbs.new(data).render(File.read(file))
       File.open(file, 'w') { |f| f << out  }
@@ -53,6 +54,6 @@ namespace :compile do
     File.open(t.name.gsub(/app\//, 'www/'), 'w') do |f|
       f.puts layout.render { template.render }
     end
-    puts "haml #{t.source} -> #{t.name}"
+    STDOUT.puts "haml #{t.source} -> #{t.name}"
   end
 end
