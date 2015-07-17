@@ -37,7 +37,7 @@ namespace :release do
       next if File.exist?('.keys/google.keystore')
       puts Paint["\nGenerate key first!\n\n", :red]
       sh "keytool -genkey -v -keystore ./.keys/google.keystore "\
-         "-alias #{app} -keyalg RSA -keysize 2048 -validity 10000"
+         "-alias '#{app}' -keyalg RSA -keysize 2048 -validity 10000"
     end
 
     task :archive do
@@ -52,14 +52,14 @@ namespace :release do
       key = GOOGLE_KEY if Object.const_defined?(:GOOGLE_KEY)
       comm = " jarsigner -verbose -sigalg SHA1withRSA "\
              "-digestalg SHA1 -keystore "\
-             "./.keys/google.keystore build/#{app}-unsigned.apk #{app}"
+             "./.keys/google.keystore 'build/#{app}-unsigned.apk' '#{app}'"
       comm = "echo '#{key}' | #{comm}" if key
       sh comm
       FileUtils.cp "build/#{app}-unsigned.apk", "build/#{app}-signed.apk"
     end
 
     task :align do
-      sh "zipalign -f -v 4 build/#{app}-signed.apk build/#{app}.apk"
+      sh "zipalign -f -v 4 'build/#{app}-signed.apk' 'build/#{app}.apk'"
     end
 
     task :check do
