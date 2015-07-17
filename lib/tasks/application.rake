@@ -13,6 +13,7 @@ class Erbs < OpenStruct
   end
 end
 
+CONFIG_YML = 'config/app.yml'
 
 namespace :compile do
   task :all   => [:js, :css, :html, :vars]
@@ -28,8 +29,9 @@ namespace :compile do
 
   desc 'Postcompile ENV variables'
   task :vars do
-    data = YAML.load_file('config/app.yml')[env]
-    # STDOUT.puts 'ERB.new(config/app.yml).render on www/'
+    next unless File.exist?(CONFIG_YML)
+    data = YAML.load_file(CONFIG_YML)[env]
+    # STDOUT.puts 'ERB.new(CONFIG_YML).render on www/'
     [:js, :css, :html].map { |f| get_sources(f, 'www') }.flatten.each do |file|
       out = Erbs.new(data).render(File.read(file))
       File.open(file, 'w') { |f| f << out  }
@@ -51,6 +53,7 @@ namespace :compile do
     next if t.name =~ /layout/
     template = Tilt.new(t.source)
     # => #<Tilt::HAMLTemplate @file="path/to/file.haml" ...>
+
     File.open(t.name.gsub(/app\//, 'www/'), 'w') do |f|
       f.puts layout.render { template.render }
     end
