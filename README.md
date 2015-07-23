@@ -1,6 +1,8 @@
 # Rake Cordova
 
 [![Gem Version](https://badge.fury.io/rb/cordova-rake.svg)](http://badge.fury.io/rb/cordova-rake)
+[![Build Status](https://travis-ci.org/nofxx/cordova-rake.svg?branch=master)](https://travis-ci.org/nofxx/cordova-rake)
+[![Dependency Status](https://gemnasium.com/nofxx/cordova-rake.svg)](https://gemnasium.com/nofxx/cordova-rake)
 
 The missing cordova tasks. And the better: On Ruby!
 
