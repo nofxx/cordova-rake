@@ -128,6 +128,9 @@ Or an ENV var 'GOOGLE_KEY'
 
 ## Apple | App Store
 
+Use **fastlane**. Going to add it to rake in next release.
+
+https://github.com/KrauseFx/fastlane
 
 ### Binaries
 
