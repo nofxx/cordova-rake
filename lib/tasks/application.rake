@@ -1,12 +1,13 @@
 desc 'Compiles all resources'
-task :compile => [:greet, 'compile:all', :report]
+task compile: [:greet, 'compile:all', :report]
 desc 'Compiles all resources with ENV=production'
-task :release => [:set_release, :compile]
+task release: [:set_release, :compile]
 
 task :set_release do
   @env = 'production'
 end
 
+# ERB render wrapper
 class Erbs < OpenStruct
   def render(template)
     ERB.new(template).result(binding)
@@ -16,16 +17,16 @@ end
 CONFIG_YML = 'config/app.yml'
 
 namespace :compile do
-  task :all   => [:js, :css, :html, :vars]
+  task all: [:js, :css, :html, :vars]
 
   desc 'Compiles Coffee -> JS'
-  task :js => get_sources(:coffee).ext('.js')
+  task js: get_sources(:coffee).ext('.js')
 
   desc 'Compiles SASS -> CSS'
-  task :css => get_sources(:sass).ext('.css')
+  task css: get_sources(:sass).ext('.css')
 
   desc 'Compiles HAML -> HTML'
-  task :html => get_sources(:haml).ext('.html')
+  task html: get_sources(:haml).ext('.html')
 
   desc 'Postcompile ENV variables'
   task :vars do
@@ -34,19 +35,20 @@ namespace :compile do
     # STDOUT.puts 'ERB.new(CONFIG_YML).render on www/'
     [:js, :css, :html].map { |f| get_sources(f, 'www') }.flatten.each do |file|
       out = Erbs.new(data).render(File.read(file))
-      File.open(file, 'w') { |f| f << out  }
+      File.open(file, 'w') { |f| f << out }
     end
   end
 
   rule '.js' => '.coffee' do |t|
-    output = File.dirname(t.source).gsub(/app\//, 'www/')
+    output = File.dirname(t.source).gsub(%r{app/}, 'www/')
     # print "CoffeeScript | " # #{t.source} -> #{output}"
     sh "coffee --no-header -b -o #{output} #{t.source}"
   end
 
   rule '.css' => '.sass' do |t|
     # print "SASS | #{t.source} -> #{t.name} | "
-    sh "sass #{t.source} #{t.name.gsub(/app\//, 'www/')}"
+    out = t.name.gsub(%r{app/}, 'www/')
+    sh "sass #{t.source} #{out}"
   end
 
   rule '.html' => '.haml' do |t|
@@ -54,7 +56,7 @@ namespace :compile do
     template = Tilt.new(t.source)
     # => #<Tilt::HAMLTemplate @file="path/to/file.haml" ...>
 
-    File.open(t.name.gsub(/app\//, 'www/'), 'w') do |f|
+    File.open(t.name.gsub(%r{app/}, 'www/'), 'w') do |f|
       f.puts layout.render { template.render }
     end
     STDOUT.puts "haml #{t.source} -> #{t.name}"
