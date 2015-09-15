@@ -52,7 +52,7 @@ namespace :release do
       key = GOOGLE_KEY if Object.const_defined?(:GOOGLE_KEY)
       comm = " jarsigner -verbose -sigalg SHA1withRSA "\
              "-digestalg SHA1 -keystore "\
-             "./.keys/google.keystore 'build/#{app}-unsigned.apk' '#{app}'"
+             "./.keys/*.keystore 'build/#{app}-unsigned.apk' '#{app}'"
       comm = "echo '#{key}' | #{comm}" if key
       sh comm
       FileUtils.cp "build/#{app}-unsigned.apk", "build/#{app}-signed.apk"
