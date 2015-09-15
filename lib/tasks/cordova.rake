@@ -50,12 +50,14 @@ namespace :emulate do
     sh 'cordova build android'
     sh "cordova emulate android --target #{ARGV[1]}"
   end
+  task android: :compile
 
   desc 'Run on iOS emulator'
   task :ios do
     sh 'cordova build ios'
     sh 'cordova emulate ios'
   end
+  task ios: :compile
 end
 
 namespace :run do
@@ -64,10 +66,12 @@ namespace :run do
     sh 'cordova build android'
     sh 'cordova run android'
   end
+  task android: :compile
 
   desc 'Run on iOS plugged device or emulator'
   task :ios do
     sh 'cordova build ios'
     sh 'cordova run ios --device'
   end
+  task ios: :compile
 end
