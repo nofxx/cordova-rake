@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
+require 'cordova/rake/version'
 
 Gem::Specification.new do |s|
   s.name        = 'cordova-rake'
-  s.version     = '0.0.8'
+  s.version     = Cordova::Rake::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Marcos Piccinini']
   s.email       = ['nofxx@github.com']
