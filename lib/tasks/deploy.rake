@@ -4,9 +4,9 @@
 #
 #
 def check_file(file)
-  if File.exists? file
-    file_size = File.size(file).to_f/(1024 * 1024)
-    puts Paint["---\nRelease build ok: #{file} #{file_size} Mb", :green]
+  if File.exist? file
+    file_size = File.size(file).to_f / (1024 * 1024)
+    puts Paint["---\nRelease build ok: #{file} #{file_size} MB", :green]
   else
     puts Paint["Something BAD! No #{file}!", :red]
     exit 1
@@ -14,7 +14,7 @@ def check_file(file)
 end
 
 namespace :release do
-
+  # Make sure we have some dirs
   task :check_dirs do
     %w( .keys build ).each do |dir|
       FileUtils.mkdir dir unless File.exist?(dir)
@@ -25,7 +25,7 @@ namespace :release do
   task google: [:release, :check_dirs, 'google:all', :report]
 
   namespace :google do
-    task :all   => [:clean, :keygen, :archive, :sign, :align, :check, :submit]
+    task all: [:clean, :keygen, :archive, :sign, :align, :check, :submit]
 
     # desc 'Clean up build folder from apks'
     task :clean do
@@ -36,12 +36,12 @@ namespace :release do
     task :keygen do
       next if File.exist?('.keys/google.keystore')
       puts Paint["\nGenerate key first!\n\n", :red]
-      sh "keytool -genkey -v -keystore ./.keys/google.keystore "\
+      sh 'keytool -genkey -v -keystore ./.keys/google.keystore '\
          "-alias '#{app}' -keyalg RSA -keysize 2048 -validity 10000"
     end
 
     task :archive do
-      sh " cordova build --release android"
+      sh ' cordova build --release android'
       FileUtils.cp 'platforms/android/build/outputs'\
                    '/apk/android-release-unsigned.apk',
                    "build/#{app}-unsigned.apk"
@@ -50,8 +50,8 @@ namespace :release do
     task :sign do
       key = ENV['GOOGLE_KEY']
       key = GOOGLE_KEY if Object.const_defined?(:GOOGLE_KEY)
-      comm = " jarsigner -verbose -sigalg SHA1withRSA "\
-             "-digestalg SHA1 -keystore "\
+      comm = ' jarsigner -verbose -sigalg SHA1withRSA '\
+             '-digestalg SHA1 -keystore '\
              "./.keys/*.keystore 'build/#{app}-unsigned.apk' '#{app}'"
       comm = "echo '#{key}' | #{comm}" if key
       sh comm
@@ -67,7 +67,8 @@ namespace :release do
     end
 
     task :submit do
-      #hope we can soon
+      # Need to build a gem for this! Soon.
+      # Fastlane for Android!
     end
   end
 
@@ -78,7 +79,7 @@ namespace :release do
   task apple: [:release, :check_dirs, 'apple:all', :report]
 
   namespace :apple do
-    task :all   => [:clean, :archive, :ipa, :check] #, :upload]
+    task all: [:clean, :archive, :ipa, :check]
 
     # desc 'Clean up build folder from apks'
     task :clean do
@@ -86,7 +87,7 @@ namespace :release do
     end
 
     task :archive do
-      sh "cordova build --release ios"
+      sh 'cordova build --release ios'
       # xcodebuild -target "#{app}" -sdk "${TARGET_SDK}" -configuration Release
     end
 
@@ -94,7 +95,7 @@ namespace :release do
       provision = Dir['platforms/ios/build/**/*.mobileprovision'].first
       developer = ENV['APPLE_DEVELOPER']
       developer = APPLE_DEVELOPER if Object.const_defined?(:APPLE_DEVELOPER)
-      comm = "xcrun -sdk iphoneos PackageApplication -v "\
+      comm = 'xcrun -sdk iphoneos PackageApplication -v '\
              "'platforms/ios/build/emulator/#{app}.app' -o "\
              "'#{Rake.original_dir}/build/#{app}.ipa' "
       comm << "--embed '#{provision}'" if provision
@@ -105,6 +106,5 @@ namespace :release do
     task :check do
       check_file("build/#{app}.ipa")
     end
-
   end
 end

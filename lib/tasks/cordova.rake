@@ -1,12 +1,11 @@
 #
 # Rake / Cordova
 #
-
 task default: [:compile]
 
 task :greet do
   puts Paint["Cordova Rake [#{env}] #{ENV['CORDOVA_PLATFORMS']}", :red]
-  puts Paint["        ----", :red]
+  puts Paint['        ----', :red]
 end
 
 desc 'Setup env for development'
@@ -17,8 +16,8 @@ task :setup do
 end
 
 task :report do
-  puts Paint["----", :red]
-  puts Paint["Rake done! #{format("%.2f", Time.now - START)}s", :black]
+  puts Paint['----', :red]
+  puts Paint["Rake done! #{format('%.2f', Time.now - START)}s", :black]
 end
 
 desc 'Phonegap Dev App, optional: port.'
@@ -36,10 +35,10 @@ end
 
 desc 'Prepare & Ripple emulate'
 task :guard do
-  if File.exists?('Guardfile')
-    puts "Guardfile exists"
+  if File.exist?('Guardfile')
+    puts 'Guardfile already exists.'
   else
-    puts "Creating Guardfile"
+    puts 'Creating Guardfile...'
     FileUtils.cp(File.join(__FILE__, '..', 'templates', 'Guardfile'), '.')
   end
 end
