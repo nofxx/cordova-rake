@@ -156,7 +156,7 @@ https://github.com/KrauseFx/fastlane
 
 ### Android
 
-Capking integration:
+Capkin integration:
 
 https://github.com/fireho/capkin
 
