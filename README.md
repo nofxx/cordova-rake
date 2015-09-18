@@ -143,6 +143,23 @@ To change developer per project:
 
     APPLE_DEVELOPER = 'Developer X (XXXXX)'
 
+## SANITY MODE
+
+This means: code, commit, `single command to do all store upload drama`
+
+### iOS
+
+Fastlane integration:
+
+https://github.com/KrauseFx/fastlane
+
+
+### Android
+
+Capking integration:
+
+https://github.com/fireho/capkin
+
 
 ## YAMG - Yet Another Media Generator
 
