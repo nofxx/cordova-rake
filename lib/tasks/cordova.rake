@@ -10,8 +10,10 @@ end
 
 desc 'Setup env for development'
 task :setup do
+  puts Paint['Installing NPM stuff...', :red]
   sh 'npm -g install phonegap cordova coffee-script '
   sh 'npm -g install ios-deploy ios-sim ' if RUBY_PLATFORM =~ /darwin/
+  puts Paint['Installing GEM stuff...', :red]
   sh 'gem install haml sass yamg guard guard-coffeelint'
 end
 

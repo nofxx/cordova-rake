@@ -87,11 +87,13 @@ namespace :release do
     end
 
     task :archive do
-      sh 'cordova build --release ios'
+      puts Paint["Build with release and device!", :red]
+      sh 'cordova build ios --release --device'
       # xcodebuild -target "#{app}" -sdk "${TARGET_SDK}" -configuration Release
     end
 
     task :ipa do
+      puts Paint["Signing iOS ipa!", :red]
       provision = Dir['platforms/ios/build/**/*.mobileprovision'].first
       developer = ENV['APPLE_DEVELOPER']
       developer = APPLE_DEVELOPER if Object.const_defined?(:APPLE_DEVELOPER)
