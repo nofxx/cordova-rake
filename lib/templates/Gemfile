@@ -6,4 +6,4 @@ gem 'sass'
 gem 'yamg'
 # Work
 gem 'guard'
-gem 'guard-coffelint'
+gem 'guard-coffeelint'

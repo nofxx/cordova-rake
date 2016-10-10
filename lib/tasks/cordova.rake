@@ -3,6 +3,15 @@
 #
 task default: [:compile]
 
+def find_or_create_file(name)
+  if File.exist?(name)
+    print "#{name} already exists! Overwrite? [y/N] "
+    return unless STDIN.gets.chomp == 'y'
+  end
+  puts 'Creating Gemfile...'
+  FileUtils.cp(File.join(__dir__, '..', 'templates', name), '.')
+end
+
 task :greet do
   puts Paint["Cordova Rake [#{env}] #{ENV['CORDOVA_PLATFORMS']}", :red]
   puts Paint['        ----', :red]
@@ -10,12 +19,12 @@ end
 
 desc 'Setup env for development'
 task :setup do
-  puts Paint['Installing NPM stuff...', :red]
+  puts Paint['Installing NPM stuff...', :blue]
   sh 'npm -g install phonegap cordova coffee-script '
   sh 'npm -g install ios-deploy ios-sim ' if RUBY_PLATFORM =~ /darwin/
   puts Paint['Installing GEM stuff...', :red]
-  sh 'gem install haml sass yamg guard guard-coffeelint'
-  # sh 'bundle update' TODO: change to use template
+  find_or_create_file 'Gemfile'
+  sh 'bundle update'
 end
 
 task :report do
@@ -38,12 +47,7 @@ end
 
 desc 'Prepare & Ripple emulate'
 task :guard do
-  if File.exist?('Guardfile')
-    puts 'Guardfile already exists.'
-  else
-    puts 'Creating Guardfile...'
-    FileUtils.cp(File.join(__FILE__, '..', 'templates', 'Guardfile'), '.')
-  end
+  find_or_create_file('Guardfile')
 end
 
 namespace :emulate do
