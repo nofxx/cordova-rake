@@ -1,0 +1,9 @@
+# Cordova Rake Gemfile
+gem 'cordova-rake'
+gem 'haml'
+gem 'sass'
+# Media
+gem 'yamg'
+# Work
+gem 'guard'
+gem 'guard-coffelint'

@@ -16,7 +16,7 @@ end
 namespace :release do
   # Make sure we have some dirs
   task :check_dirs do
-    %w( .keys build ).each do |dir|
+    %w(.keys build).each do |dir|
       FileUtils.mkdir dir unless File.exist?(dir)
     end
   end

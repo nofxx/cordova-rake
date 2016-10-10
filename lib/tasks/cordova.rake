@@ -15,6 +15,7 @@ task :setup do
   sh 'npm -g install ios-deploy ios-sim ' if RUBY_PLATFORM =~ /darwin/
   puts Paint['Installing GEM stuff...', :red]
   sh 'gem install haml sass yamg guard guard-coffeelint'
+  # sh 'bundle update' TODO: change to use template
 end
 
 task :report do

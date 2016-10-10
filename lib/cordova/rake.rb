@@ -4,15 +4,16 @@ require 'tilt'
 require 'paint'
 require 'nokogiri'
 require 'erb'
+
 START = Time.now
 
 #
 # Some helper methods
 #
 def get_sources(ext, dir = 'app')
-  source_files = Rake::FileList.new("#{dir}/**/*.#{ext}") do |fl|
-    fl.exclude("~*")
-    fl.exclude(/^scratch\//)
+  Rake::FileList.new("#{dir}/**/*.#{ext}") do |fl|
+    fl.exclude('~*')
+    fl.exclude(%r{^scratch/})
     # fl.exclude { |f| `git ls-files #{f}`.empty? } # Only commited
   end
 end
@@ -21,9 +22,9 @@ def config(key)
   return @xml[key] if @xml
   xml = Nokogiri::XML(File.open('config.xml'))
   @xml = {
-    app: xml.xpath("//xmlns:name").text,
-    desc: xml.xpath("//xmlns:description").text,
-    platforms: xml.xpath("//xmlns:platform").map { |os| os['name'] }
+    app: xml.xpath('//xmlns:name').text,
+    desc: xml.xpath('//xmlns:description').text,
+    platforms: xml.xpath('//xmlns:platform').map { |os| os['name'] }
   }
   config(key)
 end

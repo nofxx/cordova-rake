@@ -14,7 +14,7 @@ class Erbs < OpenStruct
   end
 end
 
-CONFIG_YML = 'config/app.yml'
+CONFIG_YML = 'config/app.yml'.freeze
 
 namespace :compile do
   task all: [:js, :css, :html, :vars]
