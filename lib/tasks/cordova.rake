@@ -5,10 +5,10 @@ task default: [:compile]
 
 def find_or_create_file(name)
   if File.exist?(name)
-    print "#{name} already exists! Overwrite? [y/N] "
+    print Paint["#{name} already exists! Overwrite? [y/N] ", :red]
     return unless STDIN.gets.chomp == 'y'
   end
-  puts 'Creating Gemfile...'
+  puts "Creating #{name}..."
   FileUtils.cp(File.join(__dir__, '..', 'templates', name), '.')
 end
 
