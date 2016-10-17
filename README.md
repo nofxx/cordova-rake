@@ -156,6 +156,26 @@ https://github.com/KrauseFx/fastlane
 
 ### Android
 
+#### Install
+
+
+    yaourt -S android-sdk android-sdk-platform-tools android-udev
+
+Latest:
+
+    yaourt -S android-platform android-sdk-build-tools
+
+Version:
+
+    yaourt -S android-platform-XX android-sdk-build-tools-XX
+
+Add M2:
+
+    android update sdk --no-ui --all --filter "extra-android-m2repository"
+
+
+#### Deploy
+
 Capkin integration:
 
 https://github.com/fireho/capkin
