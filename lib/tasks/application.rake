@@ -28,6 +28,9 @@ namespace :compile do
   desc 'Compiles HAML -> HTML'
   task html: get_sources(:haml).ext('.html')
 
+  desc 'Compiles SLIM -> HTML'
+  task html: get_sources(:slim).ext('.html')
+
   desc 'Postcompile ENV variables'
   task :vars do
     next unless File.exist?(CONFIG_YML)
@@ -60,5 +63,16 @@ namespace :compile do
       f.puts layout.render { template.render }
     end
     STDOUT.puts "haml #{t.source} -> #{t.name}"
+  end
+
+  rule '.html' => '.slim' do |t|
+    next if t.name =~ /layout/
+    template = Tilt.new(t.source)
+    # => #<Tilt::HAMLTemplate @file="path/to/file.haml" ...>
+
+    File.open(t.name.gsub(%r{app/}, 'www/'), 'w') do |f|
+      f.puts layout.render { template.render }
+    end
+    STDOUT.puts "slim #{t.source} -> #{t.name}"
   end
 end

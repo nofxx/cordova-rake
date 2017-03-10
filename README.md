@@ -27,7 +27,7 @@ If you don't have one
 ```
 rake compile          # Compiles all resources
 rake compile:css      # Compiles SASS -> CSS
-rake compile:html     # Compiles HAML -> HTML
+rake compile:html     # Compiles HAML/SLIM -> HTML
 rake compile:js       # Compiles Coffee -> JS
 rake compile:vars     # Postcompile ENV variables
 rake emulate:android  # Run on Android emulator
@@ -47,7 +47,7 @@ rake setup            # Setup env for development
 
 Just run `guard`. Or directly `rake`.
 ```
-HAML -> HTML
+HAML/SLIM -> HTML
 SASS -> CSS
 COFFEE -> JS
 ```
@@ -74,9 +74,9 @@ Will render `file.js` in production:
 
     apiURL = 'http://site.com'
 
-### HAML
+### HAML/SLIM
 
-You may use ERB tags anywhere in haml.
+You may use ERB tags anywhere in haml/slim.
 You may also use ERB logic if wanted.
 
 Tip: to precompile more than once the same ERB tag: `<%%= value %>`.
