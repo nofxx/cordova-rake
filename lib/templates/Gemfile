@@ -1,6 +1,7 @@
 # Cordova Rake Gemfile
 gem 'cordova-rake'
-gem 'haml'
+# gem 'haml'
+# gem 'slim'
 gem 'sass'
 # Media
 gem 'yamg'

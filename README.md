@@ -76,7 +76,8 @@ Will render `file.js` in production:
 
 ### HAML/SLIM
 
-You may use ERB tags anywhere in haml/slim.
+Choose and uncomment the line on your `Gemfile`.
+Also: You may use ERB tags anywhere in haml/slim.
 You may also use ERB logic if wanted.
 
 Tip: to precompile more than once the same ERB tag: `<%%= value %>`.
