@@ -30,7 +30,7 @@ def config(key)
 end
 
 def layout
-  @layout ||= Tilt.new('app/html/layout.haml')
+  @layout ||= Tilt.new(Dir['app/html/layout.*'].first)
 end
 
 def app

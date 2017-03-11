@@ -68,7 +68,6 @@ namespace :compile do
   rule '.html' => '.slim' do |t|
     next if t.name =~ /layout/
     template = Tilt.new(t.source)
-    # => #<Tilt::HAMLTemplate @file="path/to/file.haml" ...>
 
     File.open(t.name.gsub(%r{app/}, 'www/'), 'w') do |f|
       f.puts layout.render { template.render }
