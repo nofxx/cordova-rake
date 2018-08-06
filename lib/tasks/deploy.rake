@@ -42,8 +42,8 @@ namespace :release do
 
     task :archive do
       sh ' cordova build --release android'
-      FileUtils.cp 'platforms/android/build/outputs'\
-                   '/apk/android-release-unsigned.apk',
+      FileUtils.cp 'platforms/android/app/build/outputs'\
+                   '/apk/release/app-release-unsigned.apk',
                    "build/#{app}-unsigned.apk"
     end
 
